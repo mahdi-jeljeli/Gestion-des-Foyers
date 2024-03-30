@@ -1,0 +1,43 @@
+
+<!-- ne fonction pas encore -->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <!-- Configuration de l'appender pour enregistrer les erreurs dans un fichier spécifié -->
+        <File name="ErrorFile" fileName="E:\logSpring\errors.log">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
+
+        <!-- Configuration de l'appender pour la console avec rolling file -->
+        <RollingFile name="RollingFile" fileName="E:\logSpring\output.log" bufferedIO="false" advertiseURI="E:\logSpring\output.log" advertise="true">
+            <PatternLayout>
+                <Pattern>%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="20MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <!-- Configuration des loggers pour utiliser les appenders spécifiés -->
+        <Root level="ALL">
+            <AppenderRef ref="RollingFile"/>
+        </Root>
+        <Logger name="MonitoringLogger" level="ALL">
+            <AppenderRef ref="RollingFile"/>
+        </Logger>
+        <Logger name="ExceptionLogger" level="ERROR">
+            <AppenderRef ref="ErrorFile"/> <!-- Utilisez l'appender spécifié pour les erreurs -->
+            <AppenderRef ref="RollingFile"/>
+        </Logger>
+        <Logger name="FatalLogger" level="FATAL">
+            <AppenderRef ref="ErrorFile"/> <!-- Utilisez l'appender spécifié pour les erreurs -->
+            <AppenderRef ref="RollingFile"/>
+        </Logger>
+        <Logger name="SqlLogger" level="DEBUG">
+            <AppenderRef ref="RollingFile"/>
+        </Logger>
+    </Loggers>
+</Configuration>
